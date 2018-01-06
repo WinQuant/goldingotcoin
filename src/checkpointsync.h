@@ -1,4 +1,5 @@
 // Copyright (c) 2012-2017 The Peercoin developers
+// Copyright (c) 2018 The Jincoin Developers
 // Distributed under conditional MIT/X11 open source software license
 // see the accompanying file COPYING
 #ifndef PPCOIN_CHECKPOINTSYNC_H
@@ -37,7 +38,7 @@ bool IsMatureSyncCheckpoint();
 bool IsSyncCheckpointTooOld(unsigned int nSeconds);
 uint256 WantedByOrphan(const CBlock* pblockOrphan);
 
-// Synchronized checkpoint (introduced first in ppcoin)
+// Synchronized checkpoint (introduced first in jcoin)
 class CUnsignedSyncCheckpoint
 {
 public:

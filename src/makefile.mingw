@@ -1,5 +1,6 @@
 # Copyright (c) 2009-2010 Satoshi Nakamoto
 # Copyright (c) 2012-2017 The Peercoin developers
+# Copyright (c) 2018 The Jincoin Developers
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -66,10 +67,10 @@
 #     mkdir miniupnpc
 #     cp *.h miniupnpc/
 #
-# - Build peercoind.exe
+# - Build jincoind.exe
 #   in MinGW MSYS
-#     cd peercoin/src
-#     make peercoind.exe -f makefile.mingw USE_UPNP=1
+#     cd jincoin/src
+#     make jincoind.exe -f makefile.mingw USE_UPNP=1
 #
 #
 
@@ -167,7 +168,7 @@ OBJS= \
     obj/txdb.o
 
 
-all: peercoind.exe
+all: jincoind.exe
 
 test check: test_bitcoin.exe FORCE
 	test_bitcoin.exe
@@ -184,7 +185,7 @@ leveldb/libleveldb.a:
 obj/%.o: %.cpp $(HEADERS)
 	$(CXX) -c $(CFLAGS) -o $@ $<
 
-peercoind.exe: $(OBJS:obj/%=obj/%)
+jincoind.exe: $(OBJS:obj/%=obj/%)
 	$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
 
 TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
@@ -196,7 +197,7 @@ test_bitcoin.exe: $(TESTOBJS) $(filter-out obj/init.o,$(OBJS:obj/%=obj/%))
 	$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $(LIBPATHS) $^ -lboost_unit_test_framework$(BOOST_SUFFIX) $(LIBS)
 
 clean:
-	rm -f peercoind.exe test_peercoin.exe
+	rm -f jincoind.exe test_jincoin.exe
 	rm -f obj/*
 	rm -f obj-test/*
 	cd leveldb && $(MAKE) TARGET_OS=NATIVE_WINDOWS clean && cd ..

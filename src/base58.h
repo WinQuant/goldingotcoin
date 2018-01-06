@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin Developers
 // Copyright (c) 2011-2017 The Peercoin developers
+// Copyright (c) 2018 The Jincoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -251,7 +252,7 @@ public:
 };
 
 /** base58-encoded bitcoin addresses.
- * ppcoin public-key-hash-addresses have version 55 (or 111 testnet).
+ * jincoin public-key-hash-addresses have version 55 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
  * Script-hash-addresses have version 117 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
@@ -273,8 +274,10 @@ class CBitcoinAddress : public CBase58Data
 public:
     enum
     {
-        PUBKEY_ADDRESS = 55,  // ppcoin: addresses begin with 'P'
-        SCRIPT_ADDRESS = 117, // ppcoin: addresses begin with 'p'
+        // to see how to map the leading symbol to decimal vesion
+        // please check https://en.bitcoin.it/wiki/List_of_address_prefixes
+        PUBKEY_ADDRESS = 43,  // jincoin: addresses begin with 'J'
+        SCRIPT_ADDRESS = 105, // jincoin: addresses begin with 'j'
         PUBKEY_ADDRESS_TEST = 111,
         SCRIPT_ADDRESS_TEST = 196,
     };

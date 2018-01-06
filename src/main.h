@@ -1,6 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2017 The Peercoin developers
+// Copyright (c) 2018 The Jincoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #ifndef BITCOIN_MAIN_H
@@ -624,7 +625,7 @@ public:
 
     bool IsCoinStake() const
     {
-        // ppcoin: the coin stake transaction is marked with the first output empty
+        // jcoin: the coin stake transaction is marked with the first output empty
         return (vin.size() > 0 && (!vin[0].prevout.IsNull()) && vout.size() >= 2 && vout[0].IsEmpty());
     }
 
@@ -745,7 +746,7 @@ public:
                      unsigned int flags = SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_STRICTENC,
                      std::vector<CScriptCheck> *pvChecks = NULL) const;
 
-    bool GetCoinAge(CValidationState &state, CCoinsViewCache &view, uint64& nCoinAge) const;  // ppcoin: get transaction coin age
+    bool GetCoinAge(CValidationState &state, CCoinsViewCache &view, uint64& nCoinAge) const;  // jcoin: get transaction coin age
 
     // Apply the effects of this transaction on the UTXO set represented by view
     void UpdateCoins(CValidationState &state, CCoinsViewCache &view, CTxUndo &txundo, int nHeight, const uint256 &txhash) const;
@@ -799,8 +800,8 @@ public:
     bool fCoinBase;       // if the outpoint was the last unspent: whether it belonged to a coinbase
     unsigned int nHeight; // if the outpoint was the last unspent: its height
     int nVersion;         // if the outpoint was the last unspent: its version
-    bool fCoinStake;      // ppcoin: if the outpoint was the last unspent: whether it belonged to a coinstake
-    unsigned int nTime;   // ppcoin: if the outpoint was the last unspent: its tx timestamp
+    bool fCoinStake;      // jcoin: if the outpoint was the last unspent: whether it belonged to a coinstake
+    unsigned int nTime;   // jcoin: if the outpoint was the last unspent: its tx timestamp
     
 
     CTxInUndo() : txout(), fCoinBase(false), nHeight(0), nVersion(0), fCoinStake(false), nTime(0) {}
@@ -985,10 +986,10 @@ public:
     // as new tx version will probably only be introduced at certain heights
     int nVersion;
 
-    // ppcoin: whether transaction is a coinstake
+    // jcoin: whether transaction is a coinstake
     bool fCoinStake;
 
-    // ppcoin: transaction timestamp
+    // jcoin: transaction timestamp
     unsigned int nTime;
 
     // construct a CCoins from a CTransaction, at a given height
@@ -1052,7 +1053,7 @@ public:
         return fCoinBase;
     }
 
-    bool IsCoinStake() const { // ppcoin: coinstake
+    bool IsCoinStake() const { // jcoin: coinstake
         return fCoinStake;
     }
 
@@ -1076,10 +1077,10 @@ public:
                 nSize += ::GetSerializeSize(CTxOutCompressor(REF(vout[i])), nType, nVersion);
         // height
         nSize += ::GetSerializeSize(VARINT(nHeight), nType, nVersion);
-        // ppcoin flags
+        // jcoin flags
         unsigned int nFlag = fCoinStake? 1 : 0;
         nSize += ::GetSerializeSize(VARINT(nFlag), nType, nVersion);
-        // ppcoin transaction timestamp
+        // jcoin transaction timestamp
         nSize += ::GetSerializeSize(VARINT(nTime), nType, nVersion);
         return nSize;
     }
@@ -1111,10 +1112,10 @@ public:
         }
         // coinbase height
         ::Serialize(s, VARINT(nHeight), nType, nVersion);
-        // ppcoin flags
+        // jcoin flags
         unsigned int nFlag = fCoinStake? 1 : 0;
         ::Serialize(s, VARINT(nFlag), nType, nVersion);
-        // ppcoin transaction timestamp
+        // jcoin transaction timestamp
         ::Serialize(s, VARINT(nTime), nType, nVersion);
     }
 
@@ -1149,11 +1150,11 @@ public:
         }
         // coinbase height
         ::Unserialize(s, VARINT(nHeight), nType, nVersion);
-        // ppcoin flags
+        // jcoin flags
         unsigned int nFlag = 0;
         ::Unserialize(s, VARINT(nFlag), nType, nVersion);
         fCoinStake = nFlag & 1;
-        // ppcoin transaction timestamp
+        // jcoin transaction timestamp
         ::Unserialize(s, VARINT(nTime), nType, nVersion);
         Cleanup();
     }
@@ -1171,8 +1172,8 @@ public:
             undo.nHeight = nHeight;
             undo.fCoinBase = fCoinBase;
             undo.nVersion = this->nVersion;
-            undo.fCoinStake = fCoinStake;  // ppcoin
-            undo.nTime = nTime;            // ppcoin
+            undo.fCoinStake = fCoinStake;  // jcoin
+            undo.nTime = nTime;            // jcoin
         }
         return true;
     }
@@ -1445,7 +1446,7 @@ public:
     // network and disk
     std::vector<CTransaction> vtx;
 
-    // ppcoin: block signature - signed by coin base txout[0]'s owner
+    // jcoin: block signature - signed by coin base txout[0]'s owner
     std::vector<unsigned char> vchBlockSig;
 
     // memory only
@@ -1477,7 +1478,7 @@ public:
         vMerkleTree.clear();
     }
 
-    // ppcoin: two types of block: proof-of-work or proof-of-stake
+    // jcoin: two types of block: proof-of-work or proof-of-stake
     bool IsProofOfStake() const
     {
         return (vtx.size() > 1 && vtx[1].IsCoinStake());
@@ -1493,7 +1494,7 @@ public:
         return IsProofOfStake()? std::make_pair(vtx[1].vin[0].prevout, vtx[1].nTime) : std::make_pair(COutPoint(), (unsigned int)0);
     }
 
-    // ppcoin: get max transaction timestamp
+    // jcoin: get max transaction timestamp
     int64 GetMaxTransactionTime() const
     {
         int64 maxTransactionTime = 0;
@@ -1666,10 +1667,10 @@ public:
     // if dbp is provided, the file is known to already reside on disk
     bool AcceptBlock(CValidationState &state, CDiskBlockPos *dbp = NULL);
 
-    bool GetCoinAge(uint64& nCoinAge) const; // ppcoin: calculate total coin age spent in block
+    bool GetCoinAge(uint64& nCoinAge) const; // jcoin: calculate total coin age spent in block
     bool SignBlock(const CKeyStore& keystore);
     bool CheckBlockSignature() const;
-    unsigned int GetStakeEntropyBit() const; // ppcoin: entropy bit for stake modifier if chosen by modifier
+    unsigned int GetStakeEntropyBit() const; // jcoin: entropy bit for stake modifier if chosen by modifier
 };
 
 
@@ -1782,7 +1783,7 @@ public:
     // Byte offset within rev?????.dat where this block's undo data is stored
     unsigned int nUndoPos;
 
-    // (memory only) Total amount of trust score (ppcoin proof-of-stake difficulty) in the chain up to and including this block
+    // (memory only) Total amount of trust score (jcoin proof-of-stake difficulty) in the chain up to and including this block
     uint256 nChainTrust;
 
     // Number of transactions in this block.
@@ -1795,12 +1796,12 @@ public:
     // Verification status of this block. See enum BlockStatus
     unsigned int nStatus;
 
-    // ppcoin: money supply related block index fields
+    // jcoin: money supply related block index fields
     int64 nMint;
     int64 nMoneySupply;
 
-    // ppcoin: proof-of-stake related block index fields
-    unsigned int nFlags;  // ppcoin: block index flags
+    // jcoin: proof-of-stake related block index fields
+    unsigned int nFlags;  // jcoin: block index flags
     enum
     {
         BLOCK_PROOF_OF_STAKE = (1 << 0), // is proof-of-stake block
