@@ -1,3 +1,5 @@
+// Copyright (c) 2018 The Jincoin developers
+
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
@@ -11,7 +13,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui->setupUi(this);
 
     // Set current copyright year
-    ui->PeercoinCopyrightLabel->setText(tr("Copyright") + QString(" &copy; 2011-%1 ").arg(COPYRIGHT_YEAR) + tr("Peercoin Developers"));
+    // ui->JincoinCopyrightLabel->setText(tr("Copyright") + QString(" &copy; 2011-%1 ").arg(COPYRIGHT_YEAR) + tr("Jincoin Developers"));
+    ui->JincoinCopyrightLabel->setText(tr("Copyright") + QString(" &copy; %1 ").arg(COPYRIGHT_YEAR) + tr("Jincoin Developers"));
 }
 
 void AboutDialog::setModel(ClientModel *model)
