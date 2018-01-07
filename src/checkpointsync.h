@@ -2,8 +2,8 @@
 // Copyright (c) 2018 The Jincoin Developers
 // Distributed under conditional MIT/X11 open source software license
 // see the accompanying file COPYING
-#ifndef PPCOIN_CHECKPOINTSYNC_H
-#define  PPCOIN_CHECKPOINTSYNC_H
+#ifndef JCOIN_CHECKPOINTSYNC_H
+#define  JCOIN_CHECKPOINTSYNC_H
 
 #include "net.h"
 #include "util.h"

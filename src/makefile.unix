@@ -184,7 +184,8 @@ obj/%.o: %.cpp
 
 jincoind: $(OBJS:obj/%=obj/%)
 	$(LINK) $(xCXXFLAGS) -o $@ $^ $(xLDFLAGS) $(LIBS)
-	@cp $@ jcoind
+    # TODO no need to copy
+	# @cp $@ jcoind
 
 TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
 

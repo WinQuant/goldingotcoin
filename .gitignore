@@ -3,6 +3,7 @@ src/ppcoin
 src/peercoin
 src/ppcoind
 src/peercoind
+src/jincoind
 src/test_ppcoin
 src/test_peercoin
 .*.swp
@@ -20,6 +21,7 @@ src/test_peercoin
 Makefile
 ppcoin-qt
 peercoin-qt
+jincoin-qt
 PPCoin-Qt.app
 Peercoin-Qt.app
 .qmake.stash

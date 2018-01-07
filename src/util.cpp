@@ -1083,13 +1083,13 @@ boost::filesystem::path GetDefaultDataDir()
 boost::filesystem::path GetOldDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\PPCoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\PPCoin
-    // Mac: ~/Library/Application Support/PPCoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\JCoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\JCoin
+    // Mac: ~/Library/Application Support/JCoin
     // Unix: ~/.jcoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "PPCoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "JCoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -1101,7 +1101,7 @@ boost::filesystem::path GetOldDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet / "PPCoin";
+    return pathRet / "JCoin";
 #else
     // Unix
     return pathRet / ".jcoin";

@@ -63,7 +63,7 @@ static const int64 MIN_RELAY_TX_FEE = CENT;
 static const int64 MAX_MINT_PROOF_OF_WORK = 9999 * COIN;
 static const int64 MIN_TXOUT_AMOUNT = MIN_TX_FEE;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-static const int COINBASE_MATURITY_PPC = 500;
+static const int COINBASE_MATURITY_JC = 500;
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
 static const int STAKE_TARGET_SPACING = 10 * 60; // 10-minute block spacing 
 static const int STAKE_MIN_AGE = 60 * 60 * 24 * 30; // minimum age for coin age
@@ -76,7 +76,8 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 
-static const uint256 hashGenesisBlockOfficial("0x0000000032fe677166d54963b62a4677d8957e87c508eaa4fd7eb1c880cd27e3");
+// static const uint256 hashGenesisBlockOfficial("0x0000000032fe677166d54963b62a4677d8957e87c508eaa4fd7eb1c880cd27e3");
+static const uint256 hashGenesisBlockOfficial("0x000000001c28a568af6700dcb3632f055e155867f1ea152cfb5d294c216802e7");
 static const uint256 hashGenesisBlockTestNet("0x00000001f757bb737f6596503e17cd17b0658ce630cc727c0cca81aec47c9f06");
 
 static const int64 nMaxClockDrift = 2 * 60 * 60;        // two hours
